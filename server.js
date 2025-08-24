@@ -13,25 +13,39 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB Connected Successfully"))
+// MongoDB Connection with better options
+mongoose.connect(process.env.MONGO_URI, {
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+})
+.then(() => console.log("✅ MongoDB Connected Successfully"))
 .catch((err) => {
-  console.log("MongoDB Connection Error:", err);
-  console.log("Connection string:", process.env.MONGO_URI);
+  console.log("❌ MongoDB Connection Error:", err.message);
 });
 
-// Routes: require routes first
+// MongoDB Connection events for better debugging
+mongoose.connection.on('connected', () => {
+  console.log('✅ Mongoose connected to MongoDB Atlas');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.log('❌ Mongoose connection error:', err.message);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('⚠️ Mongoose disconnected');
+});
+
+// Routes
 const authRoutes = require("./routes/authRoutes");
 const preBookingRoutes = require("./routes/preBookingRoutes");
 const feedbackRoutes = require("./routes/feedbackRoutes");
 
-// Debug: check what each route exports
-console.log("authRoutes:", typeof authRoutes);
-console.log("preBookingRoutes:", typeof preBookingRoutes);
-console.log("feedbackRoutes:", typeof feedbackRoutes);
+// Routes use
+app.use("/api/auth", authRoutes);
+app.use("/api/prebooking", preBookingRoutes);
+app.use("/api/feedback", feedbackRoutes);
 
-// Test route - YE ADD KARO
 // Test route
 app.get("/api/test", (req, res) => {
   const dbStatus = mongoose.connection.readyState;
@@ -48,31 +62,45 @@ app.get("/api/test", (req, res) => {
     message: "Backend is working!", 
     timestamp: new Date().toISOString(),
     database: statusText,
-    databaseState: dbStatus
+    databaseState: dbStatus,
+    environment: process.env.NODE_ENV || 'development'
   });
 });
 
-// Root route - YE BHI ADD KARO
+// Health check route for Render
+app.get("/health", (req, res) => {
+  const dbStatus = mongoose.connection.readyState;
+  
+  res.status(200).json({ 
+    status: "OK", 
+    message: "Server is running",
+    timestamp: new Date().toISOString(),
+    database: dbStatus === 1 ? "Connected" : "Disconnected",
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
+// Root route
 app.get("/", (req, res) => {
   res.json({ 
     message: "Frontline Fury Backend API", 
+    status: "Running",
+    timestamp: new Date().toISOString(),
     endpoints: {
+      health: "/health",
       test: "/api/test",
       feedback: "/api/feedback",
-      auth: "/api/auth",
-      prebooking: "/api/prebooking"
+      prebooking: "/api/prebooking",
+      auth: "/api/auth"
     }
   });
 });
 
-// Routes use
-app.use("/api/auth", authRoutes);
-app.use("/api/prebooking", preBookingRoutes);
-app.use("/api/feedback", feedbackRoutes);
-
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Test URL: http://localhost:${PORT}/api/test`);
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`📊 Test URL: http://localhost:${PORT}/api/test`);
+  console.log(`❤️ Health Check: http://localhost:${PORT}/health`);
 });

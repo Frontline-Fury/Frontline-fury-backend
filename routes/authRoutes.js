@@ -41,4 +41,26 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// GET all users - YE NAYA ROUTE ADD KARO
+router.get("/users", async (req, res) => {
+  try {
+    const users = await User.find().select('-password'); // Password exclude karo
+    res.json(users);
+  } catch (err) {
+    console.error("Error fetching users:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET single user by ID - Optional
+router.get("/users/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password');
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
