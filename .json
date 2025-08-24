@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Frontline Fury API",
-    "description": "Complete API collection for Frontline Fury website",
+    "description": "Complete API collection for Frontline Fury website - Production Version",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -14,10 +14,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/feedback",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
+              "raw": "https://frontline-fury-backend.onrender.com/api/feedback",
+              "protocol": "https",
+              "host": ["frontline-fury-backend", "onrender", "com"],
               "path": ["api", "feedback"]
             }
           }
@@ -28,10 +27,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/feedback/:id",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
+              "raw": "https://frontline-fury-backend.onrender.com/api/feedback/:id",
+              "protocol": "https",
+              "host": ["frontline-fury-backend", "onrender", "com"],
               "path": ["api", "feedback", ":id"],
               "variable": [
                 {
@@ -57,10 +55,9 @@
               "raw": "{\n  \"rating\": 5,\n  \"thoughts\": \"Test feedback from Postman\",\n  \"visit_frequency\": \"Once a month\",\n  \"game_mode_request\": \"Zombie Survival\",\n  \"arena_upgrade\": \"More obstacles\",\n  \"custom_request\": \"Test request\"\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/feedback",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
+              "raw": "https://frontline-fury-backend.onrender.com/api/feedback",
+              "protocol": "https",
+              "host": ["frontline-fury-backend", "onrender", "com"],
               "path": ["api", "feedback"]
             }
           }
@@ -80,10 +77,9 @@
               "raw": "{\n  \"rating\": 4,\n  \"thoughts\": \"Updated feedback from Postman\"\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/feedback/:id",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
+              "raw": "https://frontline-fury-backend.onrender.com/api/feedback/:id",
+              "protocol": "https",
+              "host": ["frontline-fury-backend", "onrender", "com"],
               "path": ["api", "feedback", ":id"],
               "variable": [
                 {
@@ -100,10 +96,9 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/feedback/:id",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
+              "raw": "https://frontline-fury-backend.onrender.com/api/feedback/:id",
+              "protocol": "https",
+              "host": ["frontline-fury-backend", "onrender", "com"],
               "path": ["api", "feedback", ":id"],
               "variable": [
                 {
@@ -125,10 +120,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/prebooking",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
+              "raw": "https://frontline-fury-backend.onrender.com/api/prebooking",
+              "protocol": "https",
+              "host": ["frontline-fury-backend", "onrender", "com"],
               "path": ["api", "prebooking"]
             }
           }
@@ -139,10 +133,9 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/prebooking/:id",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
+              "raw": "https://frontline-fury-backend.onrender.com/api/prebooking/:id",
+              "protocol": "https",
+              "host": ["frontline-fury-backend", "onrender", "com"],
               "path": ["api", "prebooking", ":id"],
               "variable": [
                 {
@@ -168,10 +161,9 @@
               "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"mobile\": \"1234567890\",\n  \"city\": \"Dehradun\",\n  \"comments\": \"Test pre-booking from Postman\",\n  \"agreeTerms\": true\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/prebooking",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
+              "raw": "https://frontline-fury-backend.onrender.com/api/prebooking",
+              "protocol": "https",
+              "host": ["frontline-fury-backend", "onrender", "com"],
               "path": ["api", "prebooking"]
             }
           }
@@ -191,10 +183,9 @@
               "raw": "{\n  \"name\": \"Updated User\",\n  \"email\": \"updated@example.com\"\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/prebooking/:id",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
+              "raw": "https://frontline-fury-backend.onrender.com/api/prebooking/:id",
+              "protocol": "https",
+              "host": ["frontline-fury-backend", "onrender", "com"],
               "path": ["api", "prebooking", ":id"],
               "variable": [
                 {
@@ -211,10 +202,9 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/prebooking/:id",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
+              "raw": "https://frontline-fury-backend.onrender.com/api/prebooking/:id",
+              "protocol": "https",
+              "host": ["frontline-fury-backend", "onrender", "com"],
               "path": ["api", "prebooking", ":id"],
               "variable": [
                 {
@@ -236,11 +226,36 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/test",
-              "protocol": "http",
-              "host": ["localhost"],
-              "port": "5000",
+              "raw": "https://frontline-fury-backend.onrender.com/api/test",
+              "protocol": "https",
+              "host": ["frontline-fury-backend", "onrender", "com"],
               "path": ["api", "test"]
+            }
+          }
+        },
+        {
+          "name": "GET Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://frontline-fury-backend.onrender.com/health",
+              "protocol": "https",
+              "host": ["frontline-fury-backend", "onrender", "com"],
+              "path": ["health"]
+            }
+          }
+        },
+        {
+          "name": "GET Root Endpoint",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://frontline-fury-backend.onrender.com/",
+              "protocol": "https",
+              "host": ["frontline-fury-backend", "onrender", "com"],
+              "path": [""]
             }
           }
         }
