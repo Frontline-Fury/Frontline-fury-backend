@@ -1,0 +1,250 @@
+{
+  "info": {
+    "name": "Frontline Fury API",
+    "description": "Complete API collection for Frontline Fury website",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Feedbacks",
+      "item": [
+        {
+          "name": "GET All Feedbacks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/feedback",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "feedback"]
+            }
+          }
+        },
+        {
+          "name": "GET Single Feedback",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/feedback/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "feedback", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "feedback_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST Create Feedback",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rating\": 5,\n  \"thoughts\": \"Test feedback from Postman\",\n  \"visit_frequency\": \"Once a month\",\n  \"game_mode_request\": \"Zombie Survival\",\n  \"arena_upgrade\": \"More obstacles\",\n  \"custom_request\": \"Test request\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/feedback",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "feedback"]
+            }
+          }
+        },
+        {
+          "name": "PUT Update Feedback",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rating\": 4,\n  \"thoughts\": \"Updated feedback from Postman\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/feedback/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "feedback", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "feedback_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE Feedback",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/feedback/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "feedback", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "feedback_id_here"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pre-bookings",
+      "item": [
+        {
+          "name": "GET All Pre-bookings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/prebooking",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "prebooking"]
+            }
+          }
+        },
+        {
+          "name": "GET Single Pre-booking",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/prebooking/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "prebooking", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "prebooking_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "POST Create Pre-booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"mobile\": \"1234567890\",\n  \"city\": \"Dehradun\",\n  \"comments\": \"Test pre-booking from Postman\",\n  \"agreeTerms\": true\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/prebooking",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "prebooking"]
+            }
+          }
+        },
+        {
+          "name": "PUT Update Pre-booking",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated User\",\n  \"email\": \"updated@example.com\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/prebooking/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "prebooking", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "prebooking_id_here"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "DELETE Pre-booking",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/prebooking/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "prebooking", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "prebooking_id_here"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Test Routes",
+      "item": [
+        {
+          "name": "GET API Test",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/api/test",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "test"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
