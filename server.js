@@ -13,27 +13,57 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// MongoDB Connection with better options
-mongoose.connect(process.env.MONGO_URI, {
-  serverSelectionTimeoutMS: 5000,
-  socketTimeoutMS: 45000,
-})
-.then(() => console.log("✅ MongoDB Connected Successfully"))
-.catch((err) => {
-  console.log("❌ MongoDB Connection Error:", err.message);
-});
+// MongoDB Connection caching
+let isConnected = false;
 
-// MongoDB Connection events for better debugging
+const connectWithRetry = () => {
+  console.log('Connecting to MongoDB...');
+  
+  mongoose.connect(process.env.MONGO_URI, {
+    serverSelectionTimeoutMS: 3000, // 3 seconds timeout
+    socketTimeoutMS: 30000,
+    maxPoolSize: 10, // Better connection pooling
+    minPoolSize: 2,
+  })
+  .then(() => {
+    console.log("✅ MongoDB Connected Successfully");
+    isConnected = true;
+  })
+  .catch((err) => {
+    console.log("❌ MongoDB Connection Error:", err.message);
+    console.log("Retrying connection in 5 seconds...");
+    setTimeout(connectWithRetry, 5000);
+  });
+};
+
+// Initial connection
+connectWithRetry();
+
+// MongoDB Connection events
 mongoose.connection.on('connected', () => {
   console.log('✅ Mongoose connected to MongoDB Atlas');
+  isConnected = true;
 });
 
 mongoose.connection.on('error', (err) => {
   console.log('❌ Mongoose connection error:', err.message);
+  isConnected = false;
 });
 
 mongoose.connection.on('disconnected', () => {
   console.log('⚠️ Mongoose disconnected');
+  isConnected = false;
+});
+
+// Connection health middleware
+app.use((req, res, next) => {
+  if (!isConnected) {
+    return res.status(503).json({ 
+      error: "Database connecting...", 
+      message: "Please try again in a few seconds" 
+    });
+  }
+  next();
 });
 
 // Routes
@@ -63,21 +93,25 @@ app.get("/api/test", (req, res) => {
     timestamp: new Date().toISOString(),
     database: statusText,
     databaseState: dbStatus,
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    connectionCached: isConnected
   });
 });
 
-// Health check route for Render
+// Health check route for Render (Fast response)
 app.get("/health", (req, res) => {
-  const dbStatus = mongoose.connection.readyState;
-  
   res.status(200).json({ 
     status: "OK", 
     message: "Server is running",
     timestamp: new Date().toISOString(),
-    database: dbStatus === 1 ? "Connected" : "Disconnected",
-    environment: process.env.NODE_ENV || 'development'
+    database: isConnected ? "Connected" : "Connecting",
+    responseTime: "fast"
   });
+});
+
+// Quick health check for ping services (very fast)
+app.get("/ping", (req, res) => {
+  res.status(200).send("OK");
 });
 
 // Root route
@@ -88,12 +122,34 @@ app.get("/", (req, res) => {
     timestamp: new Date().toISOString(),
     endpoints: {
       health: "/health",
+      ping: "/ping",
       test: "/api/test",
       feedback: "/api/feedback",
       prebooking: "/api/prebooking",
       auth: "/api/auth"
     }
   });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).json({ 
+    error: "Internal server error",
+    message: process.env.NODE_ENV === 'production' ? "Something went wrong" : err.message
+  });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: "Endpoint not found" });
+});
+
+// Graceful shutdown
+process.on('SIGINT', async () => {
+  console.log('Shutting down gracefully...');
+  await mongoose.connection.close();
+  process.exit(0);
 });
 
 // Start Server
@@ -103,4 +159,5 @@ app.listen(PORT, () => {
   console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`📊 Test URL: http://localhost:${PORT}/api/test`);
   console.log(`❤️ Health Check: http://localhost:${PORT}/health`);
+  console.log(`🏓 Ping: http://localhost:${PORT}/ping`);
 });
